@@ -1,10 +1,23 @@
-bray.ink, brayink.ryanjpeterson.dev {
-    reverse_proxy app:3000
+brayink.ryanjpeterson.dev {
+    # Supabase API (auth, storage, rest, functions) — strip /api prefix before forwarding to Kong
+    handle_path /api/* {
+        reverse_proxy kong:8000
+    }
+
+    # SvelteKit app
+    handle {
+        reverse_proxy app:3000
+    }
 }
 
-# Local access — used when running docker compose on your machine
+# Local dev — only used when running docker compose locally
 http://localhost:4000 {
-    reverse_proxy app:3000
+    handle_path /api/* {
+        reverse_proxy kong:8000
+    }
+    handle {
+        reverse_proxy app:3000
+    }
 }
 
 http://localhost:4001 {
