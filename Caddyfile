@@ -1,0 +1,12 @@
+bray.ink, brayink.ryanjpeterson.dev {
+    reverse_proxy app:3000
+}
+
+# Local access — used when running docker compose on your machine
+http://localhost:4000 {
+    reverse_proxy app:3000
+}
+
+http://localhost:4001 {
+    reverse_proxy studio:3000
+}

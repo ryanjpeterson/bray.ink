@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# SvelteKit build output
+.svelte-kit/
+build/
+
+# Secrets — never commit
+.env
+
+# Kong config with expanded secrets (generated from volumes/api/kong.yml.template)
+# Regenerate with: python3 scripts/gen-kong.py
+volumes/api/kong.yml
+
+# OS
+.DS_Store
+
+# Leftovers not part of the SvelteKit project
+/assets/
+/index.html
+/docker/
