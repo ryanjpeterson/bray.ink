@@ -9,9 +9,9 @@ SvelteKit (adapter-node)
   └── Served by Node.js on port 3000 (inside Docker)
 
 Caddy (reverse proxy)
-  ├── bray.ink → app:3000
+  ├── brayink.ryanjpeterson.dev/api/* → kong:8000 (Supabase API)
   ├── brayink.ryanjpeterson.dev → app:3000
-  └── localhost:3001 → studio:3000 (Supabase Studio)
+  └── localhost:4001 → studio:3000 (Supabase Studio, local only)
 
 Self-hosted Supabase (Docker Compose)
   ├── Kong (API gateway, port 8000)
