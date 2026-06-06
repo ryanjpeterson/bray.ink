@@ -10,28 +10,8 @@ networks:
 volumes:
   db-data:
   storage-data:
-  caddy-data:
-  caddy-config:
 
 services:
-  # ── Caddy (reverse proxy + auto SSL) ──────────────────────────────────────
-  caddy:
-    image: caddy:2-alpine
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-      - "4000:4000"
-      - "4001:4001"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy-data:/data
-      - caddy-config:/config
-    networks:
-      - brayink
-    depends_on:
-      - app
-
   # ── SvelteKit App ──────────────────────────────────────────────────────────
   app:
     build:
@@ -40,7 +20,7 @@ services:
     restart: unless-stopped
     environment:
       - SUPABASE_URL=http://kong:8000
-      - PUBLIC_SUPABASE_URL=http://kong:8000
+      - PUBLIC_SUPABASE_URL=${PUBLIC_SUPABASE_URL}
       - PUBLIC_SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
       - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
       - RESEND_API_KEY=${RESEND_API_KEY}
@@ -49,6 +29,8 @@ services:
       - ORIGIN=${ORIGIN}
       - NODE_ENV=production
       - BODY_SIZE_LIMIT=11534336
+    ports:
+      - "127.0.0.1:3010:3000"
     networks:
       - brayink
     depends_on:
